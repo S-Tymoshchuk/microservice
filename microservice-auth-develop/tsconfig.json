@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": false,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@utils/*": ["auth/utils/*"],
+      "@dto/*": ["auth/dto/*"],
+      "@docs/*": ["auth/docs/*"],
+      "@init/*": ["auth/init/*"],
+      "@components/*": ["src/auth/components/*"],
+      "@database/*": ["src/auth/database/*"],
+      "@middlewares/*": ["src/auth/middlewares/*"],
+      "@decorators/*": ["src/auth/decorators/*"],
+      "@filters/*": ["src/auth/filters/*"],
+      "@config/*": ["src/auth/config/*"],
+      "@constants/*": ["src/auth/constants/*"]
+    }
+  }
+}

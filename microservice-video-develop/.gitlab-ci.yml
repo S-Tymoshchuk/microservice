@@ -1,0 +1,4 @@
+include:
+  project: 'clap/devops'
+  file: 'helm-charts/clap/.gitlab-ci.yml'
+  ref: main

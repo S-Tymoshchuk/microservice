@@ -1,0 +1,31 @@
+{
+  "name": "clap-proto",
+  "version": "1.0.25",
+  "description": "proto's for my app",
+  "main": "lib/index.js",
+  "scripts": {
+    "gen": "npm run gen:stubs && npm run gen:index && npm run build && npm run gen:replace",
+    "gen:all": "npm run gen:gateway && npm run gen:service && npm run gen:code && npm run build",
+    "gen:stubs": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=addGrpcMetadata=true --ts_proto_opt=returnObservable=true --ts_proto_opt=outputEncodeMethods=false --ts_proto_opt=lowerCaseServiceMethods=true --ts_proto_opt=outputJsonMethods=false --ts_proto_opt=outputClientImpl=false --ts_proto_opt=oneof=unions --ts_proto_out=./src/out ./src/protos/*.proto",
+    "gen:service": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=outputEncodeMethods=false --ts_proto_opt=outputServices=false --ts_proto_opt=outputJsonMethods=false --ts_proto_opt=outputClientImpl=false --ts_proto_out=./ ./src/protos/*.proto",
+    "build": "tsc",
+    "gen:index": "node src/gen-out.js",
+    "gen:replace": "node src/replace-packages.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "1.7.3",
+    "@grpc/proto-loader": "0.7.3",
+    "fs-extra": "10.1.0",
+    "gen": "^2.0.1",
+    "rxjs": "7.5.7",
+    "ts-proto": "1.131.0"
+  },
+  "devDependencies": {
+    "protoc": "^1.1.3",
+    "typescript": "^4.8.4"
+  }
+}

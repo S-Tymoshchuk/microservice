@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": false,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@utils/*": ["src/video/utils/*"],
+      "@dto/*": ["src/video/dto/*"],
+      "@docs/*": ["video/docs/*"],
+      "@init/*": ["video/init/*"],
+      "@components/*": ["src/video/components/*"],
+      "@database/*": ["src/video/database/*"],
+      "@middlewares/*": ["src/video/middlewares/*"],
+      "@decorators/*": ["src/video/decorators/*"],
+      "@filters/*": ["src/video/filters/*"],
+      "@config/*": ["src/video/config/*"],
+      "@enums/*": ["src/video/enums/*"],
+      "@constants/*": ["src/video/constants/*"]
+    }
+  }
+}

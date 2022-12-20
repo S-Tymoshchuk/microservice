@@ -1,0 +1,40 @@
+version: '3.3'
+
+networks:
+  clap:
+
+services:
+  clap-auth-db:
+    image: postgres:13.4-alpine
+    ports:
+     - "5432:5432"
+    environment:
+      - POSTGRES_USER=clap
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=clap
+    networks:
+      - clap
+
+  clap-auth-smtp:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "8125:1025"
+    networks:
+      - clap
+
+  clap-auth-api:
+    build:
+      context: ..
+      dockerfile: dev/Dockerfile
+    ports:
+      - "5001:5001"
+    env_file:
+      - ../.env
+    volumes:
+      - "..:/repo"
+    networks:
+      - clap
+    depends_on:
+      - clap-auth-db
+      - clap-auth-smtp

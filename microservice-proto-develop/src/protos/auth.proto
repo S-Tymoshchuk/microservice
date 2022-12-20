@@ -1,0 +1,235 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package auth;
+
+service AuthService {
+  rpc Register (RegisterRequest) returns (LoginResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Refresh (RefreshRequest) returns (LoginResponse);
+  rpc ForgotPassword (ForgotPasswordRequest) returns (ForgotPasswordResponse);
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
+  rpc GetUsersById(GetUsersByIdRequest) returns (GetUsersByIdResponse);
+  rpc UserSubscribe(UserSubscribeRequest) returns (UserSubscribeResponse);
+  rpc UserUnSubscribe(UserSubscribeRequest) returns (UserSubscribeResponse);
+  rpc GetUserInfo(google.protobuf.Empty) returns (GetUserInfoResponse);
+  rpc GetUserProfile(GetUserProfileRequest) returns (GetUserProfileResponse);
+  rpc UpdateUserInfo(UpdateUserInfoRequest) returns (UpdateUserInfoResponse);
+  rpc UpdatePrivate (UpdatePrivateRequest) returns (UpdatePrivateResponse);
+  rpc UpdateUserImg (UpdateUserImgRequest) returns (google.protobuf.Empty);
+  rpc GetListUsers (GetListUsersRequest) returns (GetListUsersResponse);
+  rpc GetUserInfoById (GetUserInfoByIdRequest) returns (GetUserInfoResponse);
+  rpc ChangeStatusUser (ChangeStatusUserRequest) returns (ChangeStatusUserResponse);
+  rpc GetMySubscriptions (google.protobuf.Empty) returns (GetMySubscriptionsResponse);
+  rpc GetStatisticSubscribers (GetStatisticSubscriberRequest) returns (GetStatisticSubscriberResponse);
+
+}
+
+// Register
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+  string username = 3;
+  string birth_date = 4;
+}
+
+message RegisterResponse {
+  int32 status = 1;
+  string error = 2;
+}
+
+// Login
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  int32 status = 1;
+  string error = 2;
+  string token = 3;
+  string refresh_token = 4;
+}
+
+// Refresh
+
+message RefreshRequest {
+  string refresh_token = 1;
+}
+
+// ForgotPassword
+
+message ForgotPasswordRequest {
+  string email = 1;
+}
+
+message ForgotPasswordResponse {
+  int32 status = 1;
+  repeated string error = 2;
+  string token = 3;
+}
+
+// ChangePassword
+
+message ChangePasswordRequest {
+  optional string token = 1;
+  string password = 2;
+  optional string current_password = 3;
+
+}
+
+message ChangePasswordResponse {
+  int32 status = 1;
+  repeated string error = 2;
+}
+
+message GetUsersByIdRequest {
+  repeated string users = 1;
+  optional string creator = 2;
+  optional string title = 3;
+}
+
+message GetUsersByIdResponse {
+  repeated UsersResponse users = 1;
+}
+
+message UsersResponse {
+  string user_id = 1;
+  string username = 2;
+}
+
+message GetUserProfileRequest {
+  string user_id = 1;
+}
+
+message GetUserProfileResponse {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  string birth_date = 4;
+  string bio = 5;
+  string status = 6;
+  string background_url = 7;
+  string avatar_url = 8;
+  string role_id = 9;
+}
+
+message UserSubscribeRequest {
+        string id = 1;
+}
+
+message GetUserInfoResponse {
+  string id = 1;
+  string email = 2;
+  string birth_date = 3;
+  string bio = 4;
+  string status = 5;
+  string background_url = 6;
+  string avatar_url = 7;
+  string username = 8;
+  int32 count_subscribe = 9;
+  string description = 10;
+  bool is_private = 11;
+}
+
+message UpdateUserInfoRequest {
+ optional string description = 1;
+ optional string username = 2;
+}
+
+message UpdatePrivateRequest {
+  bool is_private = 1;
+}
+
+message UpdateUserImgRequest {
+ optional string background_url = 1;
+ optional string avatar_url = 2;
+}
+
+message UserSubscribeResponse {
+  int32 status = 1;
+  repeated string error = 2;
+}
+
+message UpdateUserInfoResponse {
+  int32 status = 1;
+  repeated string error = 2;
+}
+
+message UpdatePrivateResponse {
+  int32 status = 1;
+  repeated string error = 2;
+}
+
+message GetListUsersResponse {
+  repeated User users = 1;
+  int32 count = 2;
+}
+
+message User {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  string status = 6;
+  string created_at = 10;
+}
+
+message GetListUsersRequest {
+   repeated string dates  = 1;
+   repeated string user_name  = 2;
+   repeated string email  = 3;
+}
+
+message GetUserInfoByIdRequest {
+   string id = 1;
+}
+
+message ChangeStatusUserRequest {
+  string id = 1;
+  string status = 2;
+}
+
+message ChangeStatusUserResponse {
+  int32 status = 1;
+  repeated string error = 2;
+}
+
+message GetMySubscriptionsResponse {
+  repeated Following subscribers = 1;
+  repeated string user_ids = 2;
+}
+
+message Following {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  string bio = 4;
+  string status = 5;
+  string background_url = 6;
+  string avatar_url = 7;
+  string description = 8;
+  string countSubscribers = 9;
+}
+
+message GetStatisticSubscriberRequest {
+  repeated string dates = 1;
+}
+
+message GetStatisticSubscriberResponse {
+  SubscribeCount follower_statistic = 1;
+}
+
+message SubscribeCount {
+  int32 follower = 1;
+  int32 newfollower = 2;
+  int32 unfollower = 3;
+
+}
+
+message ViewCount {
+  int32 views = 1;
+  int32 newviews = 2;
+}

@@ -1,0 +1,338 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package video;
+
+service VideoService {
+    rpc UploadVideo (UploadImageRequest) returns (SaveImageResponse);
+    rpc SaveVideo (SaveImageRequest) returns (SaveImageResponse);
+    rpc GetVideo (VideoRequest) returns (VideoResponse);
+    rpc GetSearchVideo (VideoSearchRequest) returns (VideoResponse);
+    rpc PinnedVideo (PinnedVideoRequest) returns (PinnedVideoResponse);
+    rpc GetVideoById (GetVideoIdRequest) returns (VideoCommentsResponse);
+    rpc UpdateView (UpdateViewRequest) returns (UpdateViewResponse);
+    rpc UpdateOrCreateReaction (UpdateOrCreateReactionRequest) returns (UpdateOrCreateReactionResponse);
+    rpc GetWatchedVideo (GetWatchedVideoRequest) returns (GetWatchedVideoResponse);
+    rpc GetStudioInfo (google.protobuf.Empty) returns (GetStudioInfoResponse);
+    rpc GetStatisticInfo (GetStatisticInfoRequest) returns (GetStatisticInfoResponse);
+    rpc CreateComment (CreateCommentRequest) returns (CreateCommentResponse);
+    rpc CreateLikeComment (CreateLikeCommentRequest) returns (CreateLikeCommentResponse);
+    rpc RemoveComment (RemoveCommentRequest) returns (RemoveCommentResponse);
+    rpc UploadImg (UploadImgRequest) returns (UploadImgResponse);
+    rpc AddReportVideo (AddReportVideoRequest) returns (AddReportVideoResponse);
+    rpc CountUsersVideo (CountUsersVideoRequest) returns (CountUsersVideoResponse);
+    rpc GetUserContentById (GetUserContentByIdRequest) returns (GetUserContentByIdResponse);
+    rpc GetReports (GetReportsRequest) returns (GetReportsResponse);
+    rpc GetReviewedReports (google.protobuf.Empty) returns (GetReportsResponse);
+    rpc UpdateStatusReport (UpdateStatusReportRequest) returns (PinnedVideoResponse);
+    rpc GetVideoContent (google.protobuf.Empty) returns (GetUserContentByIdResponse);
+}
+
+message Category {
+    string name = 1;
+    string id = 2;
+}
+
+message SaveImageRequest {
+    string title = 1;
+    string url = 2;
+    int32 duration = 3;
+    repeated string category = 4;
+    string hash_video = 5;
+}
+
+message SaveImageResponse {
+    string id = 1;
+    string title = 2;
+    int32 duration = 3;
+    string url = 4;
+    string preview_url = 5;
+    string owner_id = 6;
+    string hash_video = 7;
+   repeated Category categories = 8;
+    string quality720 = 9;
+    string quality1080 = 10;
+    string description = 11;
+    string created_at = 12;
+}
+
+message UploadImageRequest {
+    VideoUpload video = 1;
+    VideoUpload preview = 2;
+    string title = 3;
+    string description = 4;
+    string duration = 5;
+    repeated string category = 6;
+
+}
+
+message VideoUpload {
+    bytes binary = 1;
+    string mime = 2;
+    string original_name = 3;
+}
+
+message UploadImageResponse {
+    string image_url = 2;
+    string video_hash = 3;
+}
+
+message VideoRequest {
+    int32 page_size = 1;
+    int32 page = 2;
+    string field = 3;
+    string sort = 4;
+    optional string search = 5;
+}
+
+message VideoSearchRequest {
+    int32 page_size = 1;
+    int32 page = 2;
+    string field = 3;
+    string sort = 4;
+    optional string search = 5;
+    repeated string categories = 6;
+}
+
+message VideoResponse {
+    repeated Video videos = 1;
+}
+
+message GetWatchedVideoResponse {
+    repeated Video videos = 1;
+}
+
+message Video {
+    string id = 1;
+    string title = 2;
+    int32 duration = 3;
+    string url = 4;
+    string created_at = 5;
+    bool is_pinned = 6;
+    int32 view = 7;
+    string owner_id = 8;
+    optional string type = 9;
+    optional int32 likes = 10;
+    optional int32 view_date = 11;
+    optional int32 comments = 12;
+}
+
+message PinnedVideoRequest {
+    string id = 1;
+    bool is_pinned = 2;
+}
+
+message GetVideoIdRequest {
+    string id = 1;
+}
+
+message UpdateViewRequest {
+    string id = 1;
+}
+
+message UpdateOrCreateReactionRequest {
+    string type = 1;
+    string video_id = 2;
+}
+
+message GetWatchedVideoRequest {
+    string id = 1;
+    string type = 2;
+}
+
+message GetStudioInfoResponse {
+    Video top_view = 1;
+    Video top_liked = 2;
+    Video top_comments = 3;
+}
+
+message GetStatisticInfoRequest {
+    repeated string dates = 1;
+
+}
+
+message GetStatisticInfoResponse {
+    ViewCount views_statistic = 1;
+    LikeCount likes_statistic = 2;
+    CommentCount comments_statistic = 3;
+}
+
+message ViewCount {
+    int32 views = 1;
+    int32 newviews = 2;
+}
+
+message LikeCount {
+    int32 likes = 1;
+    int32 newlikes = 2;
+}
+
+message CommentCount {
+    int32 comment = 1;
+    int32 newcomment = 2;
+}
+
+message CreateCommentRequest {
+    string text = 1;
+    string video_id = 2;
+}
+
+message CreateCommentResponse {
+    string video_id = 1;
+    string text = 2;
+    string user_id = 3;
+    string id = 4;
+    string created_at = 5;
+    string updated_at = 6;
+}
+
+message VideoCommentsResponse {
+    string id = 1;
+    string title = 2;
+    int32 duration = 3;
+    string url = 4;
+    string created_at = 5;
+    bool is_pinned = 6;
+    int32 view = 7;
+    string owner_id = 8;
+    optional string type = 9;
+    optional int32 likes = 10;
+    optional string view_date = 11;
+    repeated Comment comments = 12;
+}
+
+message Comment {
+    string id = 1;
+    string user_id = 2;
+    string text = 3;
+    string created_at = 4;
+    string likes = 5;
+}
+
+message CreateLikeCommentRequest {
+    string id = 1;
+}
+
+message RemoveCommentRequest {
+    string id = 1;
+}
+
+message UploadImgRequest {
+    bytes binary = 1;
+    string mime = 2;
+    string original_name = 3;
+   optional string type = 4;
+}
+
+message UploadImgResponse {
+    string image_url = 1;
+}
+
+message PinnedVideoResponse {
+    int32 status = 1;
+    repeated string error = 2;
+}
+
+message UpdateViewResponse {
+    int32 status = 1;
+    repeated string error = 2;
+}
+
+message UpdateOrCreateReactionResponse {
+    int32 status = 1;
+    repeated string error = 2;
+}
+
+message CreateLikeCommentResponse {
+    int32 status = 1;
+    repeated string error = 2;
+}
+
+message RemoveCommentResponse {
+    int32 status = 1;
+    repeated string error = 2;
+}
+
+message AddReportVideoRequest {
+    string reason = 1;
+    string video_id = 2;
+    optional string description = 3;
+}
+
+message AddReportVideoResponse {
+    string reason = 1;
+    string video_id = 2;
+    string user_id = 3;
+    string id = 4;
+    string created_at = 5;
+    string updated_at = 6;
+}
+
+message CountUsersVideoResponse {
+    repeated CountVideos count_videos = 1;
+}
+
+
+message CountVideos {
+    string owner_id = 1;
+    int32 count = 2;
+}
+
+message GetUserContentByIdRequest {
+    string id = 1;
+}
+
+message GetUserContentByIdResponse {
+    repeated UserContent rows = 1;
+    int32 count = 2;
+}
+
+message UserContent {
+    string id = 1;
+    string title = 2;
+    int32 duration = 3;
+    string url = 4;
+    string created_at = 5;
+    bool is_pinned = 6;
+    int32 view = 7;
+    string owner_id = 8;
+    optional string type = 9;
+    optional int32 count_comments = 10;
+    optional int32 count_views = 11;
+    optional int32 count_likes = 12;
+}
+
+message GetReportsResponse {
+    repeated Reports reports = 1;
+    repeated string user_ids = 2;
+}
+
+message Reports {
+    string id = 1;
+    string created_at = 2;
+    string reason = 3;
+    string description = 4;
+    string user_id = 5;
+    string video_id = 6;
+    string video_title = 7;
+    string video_owner_id = 8;
+    int32 report = 9;
+    string status = 10;
+    string video_upload = 11;
+}
+
+message GetReportsRequest {
+    repeated string dates  = 1;
+    optional string reason = 2;
+    optional string title = 3;
+    optional string video_id = 4;
+}
+
+message UpdateStatusReportRequest {
+    string id = 1;
+    string status = 2;
+}
+message CountUsersVideoRequest{
+    repeated string user_ids = 1;
+}

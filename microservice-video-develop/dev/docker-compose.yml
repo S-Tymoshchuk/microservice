@@ -1,0 +1,31 @@
+version: '3.3'
+
+networks:
+  clap:
+
+services:
+  clap-video-db:
+    image: postgres:13.4-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=clap
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=clap
+    networks:
+      - clap
+
+  clap-video-api:
+    build:
+      context: ..
+      dockerfile: dev/Dockerfile
+    ports:
+      - "5002:5002"
+    env_file:
+      - ../.env
+    volumes:
+      - "..:/repo"
+    networks:
+      - clap
+    depends_on:
+      - clap-video-db
